@@ -166,3 +166,38 @@ top_produtos = (
     .head(10)
 )
 print(top_produtos.to_string(index=False))
+# =============================================================================
+# 7. CONCLUSÕES / INSIGHTS
+# =============================================================================
+
+#("7. CONCLUSÕES E INSIGHTS")
+
+categoria_top = df_limpo["PR_CAT"].value_counts().idxmax()
+genero_top = df_limpo["CL_GENERO"].value_counts().idxmax()
+mes_top = df_limpo.groupby("ANO_MES").size().idxmax()
+
+conclusoes = [
+    f"1. A base contém {df_limpo['CO_ID'].nunique()} compras distintas, totalizando "
+    f"{len(df_limpo)} itens vendidos após a limpeza (foram removidas "
+    f"{qtd_antes - qtd_depois} linhas duplicadas).",
+
+    f"2. A categoria de produto mais vendida é '{categoria_top}', concentrando a "
+    "maior parte do volume de itens da base.",
+
+    f"3. O gênero '{genero_top}' concentra a maior parte das compras registradas, "
+    "o que pode orientar campanhas e sortimento de produtos.",
+
+    f"4. O mês com maior volume de vendas foi {mes_top}, indicando possível "
+    "sazonalidade no comportamento de compra.",
+
+    f"5. Em média, os clientes têm {estat_filhos['média']:.1f} filhos (mediana "
+    f"{estat_filhos['mediana']:.0f}), com desvio padrão de "
+    f"{estat_filhos['desvio_padrão']:.2f}, mostrando um perfil familiar "
+    "relativamente homogêneo na base de clientes.",
+
+    f"6. Ainda restam {qtd_nd} itens que tinham categoria original ausente "
+    "('Sem Categoria' após o tratamento) - vale investigar a origem desses "
+    "registros no sistema de origem para evitar o problema em cargas futuras.",
+]
+for c in conclusoes:
+    print(c)
