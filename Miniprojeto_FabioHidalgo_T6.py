@@ -51,3 +51,44 @@ datas_teste = pd.to_datetime(df["DATA"], format="%d/%m/%Y", errors="coerce")
 qtd_datas_invalidas = datas_teste.isnull().sum()
 print(f"\nDatas em formato inválido (não convertidas): {qtd_datas_invalidas}")
 print(f"Período coberto pela base: {datas_teste.min().date()} até {datas_teste.max().date()}")
+# =============================================================================
+# SPRINT 2/3 - LIMPEZA DOS DADOS (3 etapas mínimas exigidas)
+# =============================================================================
+
+#("3. LIMPEZA DA BASE")
+
+df_limpo = df.copy()
+
+# --- Limpeza 1: remover colunas totalmente vazias -----------------------
+# Escolha: REMOVER (não faz sentido imputar uma coluna sem nenhum dado;
+# ela é apenas resíduo dos ";" finais de cada linha do CSV original).
+df_limpo = df_limpo.drop(columns=colunas_vazias)
+print(f"[OK] Removidas {len(colunas_vazias)} colunas 100% vazias: {colunas_vazias}")
+
+# --- Limpeza 2: tratar categoria ausente ("#N/D") ------------------------
+# Escolha: IMPUTAR (não remover), pois o item comprado continua sendo uma
+# informação válida de venda; perder a linha jogaria fora vendas reais.
+# Regra de negócio se/senão: se a categoria for "#N/D", vira "Sem Categoria".
+if "PR_CAT" in df_limpo.columns:
+    df_limpo["PR_CAT"] = df_limpo["PR_CAT"].apply(
+        lambda cat: "Sem Categoria" if cat == "#N/D" else cat
+    )
+print("[OK] Categorias '#N/D' substituídas por 'Sem Categoria' "
+      f"({qtd_nd} registros afetados).")
+
+# --- Limpeza 3: remover duplicatas relevantes ----------------------------
+# Escolha: REMOVER. Uma linha duplicada em TODAS as colunas (mesma compra,
+# mesmo cliente, mesmo produto, mesma data) representa o mesmo item sendo
+# contado duas vezes, o que distorce contagens e estatísticas de vendas.
+qtd_antes = len(df_limpo)
+df_limpo = df_limpo.drop_duplicates()
+qtd_depois = len(df_limpo)
+print(f"[OK] Duplicatas removidas: {qtd_antes - qtd_depois} "
+      f"(de {qtd_antes} para {qtd_depois} linhas).")
+
+# --- Ajuste de tipos: converter DATA (string) para datetime --------------
+df_limpo["DATA"] = pd.to_datetime(df_limpo["DATA"], format="%d/%m/%Y")
+print("[OK] Coluna DATA convertida de texto (string) para datetime.")
+
+print("\nTipos de dados após a limpeza:")
+print(df_limpo.dtypes)
