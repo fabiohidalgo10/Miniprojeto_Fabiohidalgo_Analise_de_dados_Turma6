@@ -109,3 +109,29 @@ print(f"Compra com mais itens: CO_ID {itens_por_compra.idxmax()} "
       f"({itens_por_compra.max()} itens)")
 print(f"Compra com menos itens: CO_ID {itens_por_compra.idxmin()} "
       f"({itens_por_compra.min()} itens)")
+# =============================================================================
+# 5. ESTATÍSTICA DESCRITIVA - Número de filhos do cliente (CL_FHL)
+# =============================================================================
+
+#("5. ESTATÍSTICA DESCRITIVA - Número de filhos do cliente (CL_FHL)")
+
+# Como cada cliente aparece várias vezes (uma vez por item comprado),
+# calculamos as estatísticas sobre clientes ÚNICOS, para não inflar os
+# resultados com a repetição do mesmo cliente em várias linhas.
+clientes_unicos = df_limpo.drop_duplicates(subset="CL_ID")
+filhos = clientes_unicos["CL_FHL"]
+
+estat_filhos = {
+    "contagem": filhos.count(),
+    "média": filhos.mean(),
+    "mediana": filhos.median(),
+    "desvio_padrão": filhos.std(),
+    "moda": filhos.mode().iloc[0],
+    "mínimo": filhos.min(),
+    "máximo": filhos.max(),
+    "quartil_25%": filhos.quantile(0.25),
+    "quartil_50%": filhos.quantile(0.50),
+    "quartil_75%": filhos.quantile(0.75),
+}
+for nome, valor in estat_filhos.items():
+    print(f"{nome:15s}: {valor:.2f}" if isinstance(valor, float) else f"{nome:15s}: {valor}")
