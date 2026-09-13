@@ -8,7 +8,7 @@ Turma: **Analise_de_Dados_T6**
 Este projeto aplica uma **Análise Exploratória de Dados (AED)** sobre uma base
 real de compras de varejo (`Base_Varejo.csv`), contendo registros de itens
 comprados por clientes (data, cliente, produto, categoria e características
-sociodemográficas). O script (`Miniprojeto_NomeAluno_T6.py`) percorre as
+sociodemográficas). O script (`Miniprojeto_FabioHidalgo_T6.py`) percorre as
 seguintes etapas:
 
 1. **Carga e inspeção inicial** — leitura do CSV com `pandas`, verificação do
@@ -72,14 +72,14 @@ https://www.kaggle.com/datasets/namespaiva/base-varejo/data
 2. Abra o terminal na pasta do projeto.
 3. Execute:
    ```
-   python Miniprojeto_NomeAluno_T6.py
+   python Miniprojeto_FabioHidalgo_T6.py
    ```
 4. O relatório completo (diagnóstico, limpeza, estatísticas, agrupamentos e
    conclusões) é impresso no terminal, e o arquivo `df_limpo.csv` é gerado
    automaticamente na mesma pasta ao final da execução.
 
 ### Opção 2 — Google Colab
-1. Faça upload de `Base_Varejo.csv` e de `Miniprojeto_NomeAluno_T6.py` para o
+1. Faça upload de `Base_Varejo.csv` e de `Miniprojeto_FabioHidalgo_T6.py` para o
    ambiente do Colab (ou cole o conteúdo do `.py` em uma célula).
 2. Rode todas as células.
 
@@ -87,7 +87,7 @@ https://www.kaggle.com/datasets/namespaiva/base-varejo/data
 
 ```
 ├── Base_Varejo.csv                  # base original (bruta)
-├── Miniprojeto_NomeAluno_T6.py      # script da AED (comentado por bloco)
+├── Miniprojeto_FabioHidalgo_T6.py      # script da AED (comentado por bloco)
 ├── df_limpo.csv                     # base já limpa, gerada pelo script
 └── README.md                        # este arquivo
 ```
