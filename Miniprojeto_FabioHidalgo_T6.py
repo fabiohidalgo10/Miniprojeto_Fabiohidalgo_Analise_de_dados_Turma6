@@ -135,3 +135,34 @@ estat_filhos = {
 }
 for nome, valor in estat_filhos.items():
     print(f"{nome:15s}: {valor:.2f}" if isinstance(valor, float) else f"{nome:15s}: {valor}")
+# =============================================================================
+# 6. PADRÕES DE AGRUPAMENTO (2 combinações, groupby / pivot_table)
+# =============================================================================
+
+#("6. AGRUPAMENTO 1 - Vendas (itens) por gênero e categoria de produto")
+
+agrup_genero_categoria = df_limpo.pivot_table(
+    index="CL_GENERO",
+    columns="PR_CAT",
+    values="PR_ID",
+    aggfunc="count",
+    fill_value=0,
+)
+print(agrup_genero_categoria)
+
+#("6. AGRUPAMENTO 2 - Vendas (itens) por mês e segmento de cliente (CL_SEG)")
+
+df_limpo["ANO_MES"] = df_limpo["DATA"].dt.to_period("M")
+agrup_mes_segmento = df_limpo.groupby(["ANO_MES", "CL_SEG"]).size().unstack(fill_value=0)
+print(agrup_mes_segmento)
+
+#("6. AGRUPAMENTO 3 (extra) - Top 10 produtos mais vendidos por categoria")
+
+top_produtos = (
+    df_limpo.groupby(["PR_CAT", "PR_NOME"])
+    .size()
+    .reset_index(name="qtd_itens")
+    .sort_values("qtd_itens", ascending=False)
+    .head(10)
+)
+print(top_produtos.to_string(index=False))
