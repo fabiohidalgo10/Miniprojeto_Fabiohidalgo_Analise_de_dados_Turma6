@@ -92,3 +92,20 @@ print("[OK] Coluna DATA convertida de texto (string) para datetime.")
 
 print("\nTipos de dados após a limpeza:")
 print(df_limpo.dtypes)
+# =============================================================================
+# 4. REGRA DE NEGÓCIO: CO_ID identifica a COMPRA, não a linha
+# =============================================================================
+# Cada linha da base é um ITEM comprado. Várias linhas com o mesmo CO_ID
+# formam UMA compra (carrinho). Validamos essa regra e usamos CO_ID para
+# agrupar itens de uma mesma compra quando necessário.
+
+#("4. VALIDAÇÃO DO IDENTIFICADOR DE COMPRA (CO_ID)")
+
+itens_por_compra = df_limpo.groupby("CO_ID").size()
+print(f"Total de compras (CO_ID distintos): {df_limpo['CO_ID'].nunique()}")
+print(f"Total de itens (linhas) na base limpa: {len(df_limpo)}")
+print(f"Média de itens por compra: {itens_por_compra.mean():.2f}")
+print(f"Compra com mais itens: CO_ID {itens_por_compra.idxmax()} "
+      f"({itens_por_compra.max()} itens)")
+print(f"Compra com menos itens: CO_ID {itens_por_compra.idxmin()} "
+      f"({itens_por_compra.min()} itens)")
