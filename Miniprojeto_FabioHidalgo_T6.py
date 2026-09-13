@@ -201,3 +201,10 @@ conclusoes = [
 ]
 for c in conclusoes:
     print(c)
+
+# =============================================================================
+# 8. EXPORTAÇÃO DA BASE LIMPA (para versionamento / uso em dashboards)
+# =============================================================================
+
+df_limpo.to_csv("df_limpo.csv", sep=";", index=False)
+print("\n[OK] Base limpa exportada para 'df_limpo.csv'.")
